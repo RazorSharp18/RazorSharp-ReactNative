@@ -1,0 +1,3 @@
+rootProject.name = 'RazorSharp'
+
+include ':app'
