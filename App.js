@@ -11,6 +11,8 @@ import {
   Text,
   View
 } from 'react-native';
+import Details from './Profiles/Details';
+import MockData from './Profiles/MockData';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -21,17 +23,10 @@ const instructions = Platform.select({
 
 export default class App extends Component<{}> {
   render() {
+    const props = MockData;
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
+        <Details {...MockData} />
       </View>
     );
   }
@@ -40,8 +35,9 @@ export default class App extends Component<{}> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'stretch',
     backgroundColor: '#F5FCFF',
   },
   welcome: {
