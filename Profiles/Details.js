@@ -7,8 +7,9 @@ class Details extends React.Component {
   render() {
     return(
       <ScrollView>
+         
         <Text style={styles.header}> RazorSharp </Text>
-        <Text style={styles.text}> {this.props.Reasturant} </Text>
+        <Text style={styles.text}> {this.props.restaurantName} </Text>
         <Text style={styles.text}> Ratings: {this.props.Ratings} </Text>
         <Comments Comments={this.props.Comments} />
         <PersonalDetails Details={this.props.Details} />

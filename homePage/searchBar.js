@@ -60,8 +60,8 @@ export default class SearchBar extends React.Component {
   })
 }
 
-navigateToProfile = () => {
-  this.props.navigation.navigate('Profile');
+navigateToProfile = (name) => {
+  this.props.navigation.navigate('Profile', {restaurantName: name});
 }
 
   render() {
@@ -81,7 +81,7 @@ navigateToProfile = () => {
       <FlatList  style={styles.FlatListStyles}
         data = {this.state.searchData}
         keyExtractor={(x,i) => i}
-        renderItem= {({item}) => <TouchableOpacity onPress={this.navigateToProfile}><Text style={styles.FlatListTextStyles}>
+        renderItem= {({item}) => <TouchableOpacity onPress={this.navigateToProfile(`${item.name}`)}><Text style={styles.FlatListTextStyles}>
                                     {`${item.name}`}
                                   </Text></TouchableOpacity>}
         />

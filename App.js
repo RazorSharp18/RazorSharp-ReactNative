@@ -23,6 +23,7 @@ const instructions = Platform.select({
 
 export default class App extends Component {
   render() {
+    console.log(this.props.navigation);
     const props = MockData;
     return (
       <View style={styles.container}>
