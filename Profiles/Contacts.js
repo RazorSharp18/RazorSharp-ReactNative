@@ -3,7 +3,6 @@ import { ScrollView, Text, View, Image, StyleSheet } from 'react-native';
 
 export default class Contacts extends React.Component {
   render() {
-    console.log(this.props.Contact)
     return(
       <View style={styles.contactsContainer} key="Details">
         <Image style={styles.contactsIcon} source={require('./call.png')} />

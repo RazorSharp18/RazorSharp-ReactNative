@@ -44,9 +44,9 @@ export default class SearchBar extends React.Component {
 
   fetchData = async () => {
     if(this.state.text == ''){
-    const response = await fetch('https://randomuser.me/api?results=150');
+    const response = await fetch('http://localhost:3001/restaurants/names');
     const json = await response.json();
-    this.setState({data: json.results});
+    this.setState({data: json});
     this.setState({searchData: [].concat(this.state.data)})
   }
 }
@@ -55,7 +55,7 @@ export default class SearchBar extends React.Component {
     this.state.searchData = [];
     this.state.text = textEntered;
     this.setState({searchData: this.state.data.filter(function(each){
-      return ((each.name.first).toLowerCase()).includes(textEntered.toLowerCase());
+      return ((each.name).toLowerCase()).includes(textEntered.toLowerCase());
     })
   })
 }
@@ -82,7 +82,7 @@ navigateToProfile = () => {
         data = {this.state.searchData}
         keyExtractor={(x,i) => i}
         renderItem= {({item}) => <TouchableOpacity onPress={this.navigateToProfile}><Text style={styles.FlatListTextStyles}>
-                                    {`${item.name.first}`}
+                                    {`${item.name}`}
                                   </Text></TouchableOpacity>}
         />
       </View>
