@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, Text, TextInput, View, FlatList } from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, Text, TextInput, View, FlatList, TouchableOpacity } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class searchBar extends React.Component {
+export default class SearchBar extends React.Component {
   state = {
     data: [],
     searchData: [],
@@ -60,6 +60,10 @@ export default class searchBar extends React.Component {
   })
 }
 
+navigateToProfile = () => {
+  this.props.navigation.navigate('Profile');
+}
+
   render() {
     return (
       <View style={styles.container}>
@@ -77,9 +81,9 @@ export default class searchBar extends React.Component {
       <FlatList  style={styles.FlatListStyles}
         data = {this.state.searchData}
         keyExtractor={(x,i) => i}
-        renderItem= {({item}) => <Text style={styles.FlatListTextStyles}>
+        renderItem= {({item}) => <TouchableOpacity onPress={this.navigateToProfile}><Text style={styles.FlatListTextStyles}>
                                     {`${item.name.first}`}
-                                  </Text>}
+                                  </Text></TouchableOpacity>}
         />
       </View>
     );
