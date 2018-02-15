@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import Details from './Profiles/Details';
 import MockData from './Profiles/MockData';
+import searchBar from './homePage/searchBar';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -21,12 +22,12 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
-export default class App extends Component<{}> {
+export default class App extends Component {
   render() {
     const props = MockData;
     return (
       <View style={styles.container}>
-        <Details {...MockData} />
+        <searchBar />
       </View>
     );
   }
