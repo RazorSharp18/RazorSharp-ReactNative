@@ -75,7 +75,6 @@ navigateToProfile = (name) => {
   fetch('http://localhost:3001/restaurant/'+name)
   .then((restaurantData) => restaurantData.json())
   .then(function(restaurantData) {
-    console.log(restaurantData);
     this.props.navigation.navigate('Profile', {restaurantData: restaurantData});
   }.bind(this));
 }
