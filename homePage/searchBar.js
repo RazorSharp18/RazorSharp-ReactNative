@@ -58,7 +58,7 @@ export default class SearchBar extends React.Component {
     .then(function(resp) {
       this.setState({data: resp});
       this.setState({searchData: [].concat(this.state.data)})
-    }.bind(this))
+    }.bind(this));
   }
 }
 
@@ -72,7 +72,12 @@ export default class SearchBar extends React.Component {
 }
 
 navigateToProfile = (name) => {
-  this.props.navigation.navigate('Profile', {restaurantName: name});
+  fetch('http://localhost:3001/restaurant/'+name)
+  .then((restaurantData) => restaurantData.json())
+  .then(function(restaurantData) {
+    console.log(restaurantData);
+    this.props.navigation.navigate('Profile', {restaurantData: restaurantData});
+  }.bind(this));
 }
 
   render() {
