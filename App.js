@@ -22,12 +22,17 @@ const instructions = Platform.select({
 });
 
 export default class App extends Component {
+  constructor(props){
+    super(props);
+    this.name = props.name;
+    this.state = { restaurantData: [] };
+}
+
   render() {
-    console.log(this.props.navigation);
-    const props = MockData;
+    console.log(this.state.restaurantData);
     return (
       <View style={styles.container}>
-        <Details {...MockData} />
+        <Details {...this.state.restaurantData} />
       </View>
     );
   }
