@@ -13,7 +13,6 @@ const styles = StyleSheet.create({
     fontSize: 25,
     alignSelf: 'stretch',
     textAlign: 'center',
-
   },
   textStyles: {
     height: 30,
@@ -36,6 +35,16 @@ const styles = StyleSheet.create({
 });
 
 export default class SearchBar extends React.Component {
+  // constructor() { 
+  //   super();
+  //     this.state = {
+  //     data: [],
+  //     searchData: ["enter"],
+  //     text: ''
+  //   }
+  //   this.TextChange = this.TextChange.bind(this,false);
+  // }
+
   state = {
     data: [],
     searchData: [],
@@ -44,10 +53,12 @@ export default class SearchBar extends React.Component {
 
   fetchData = async () => {
     if(this.state.text == ''){
-    const response = await fetch('http://localhost:3001/restaurants/names');
-    const json = await response.json();
-    this.setState({data: json});
-    this.setState({searchData: [].concat(this.state.data)})
+    const response = await fetch('http://localhost:3001/restaurants/names')
+    .then((resp) => resp.json())
+    .then(function(resp) {
+      this.setState({data: resp});
+      this.setState({searchData: [].concat(this.state.data)})
+    }.bind(this))
   }
 }
 
@@ -81,7 +92,7 @@ navigateToProfile = (name) => {
       <FlatList  style={styles.FlatListStyles}
         data = {this.state.searchData}
         keyExtractor={(x,i) => i}
-        renderItem= {({item}) => <TouchableOpacity onPress={this.navigateToProfile(`${item.name}`)}><Text style={styles.FlatListTextStyles}>
+        renderItem= {({item}) => <TouchableOpacity onPress={()=>this.navigateToProfile(`${item.name}`)}><Text style={styles.FlatListTextStyles}>
                                     {`${item.name}`}
                                   </Text></TouchableOpacity>}
         />
