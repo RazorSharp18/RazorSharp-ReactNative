@@ -5,12 +5,12 @@ import PersonalDetails from './PersonalDetails';
 
 class Details extends React.Component {
   render() {
+    const restaurantDetails = this.props.restaurantDetails;
     return(
       <ScrollView>
-         console.log(this.props);
         <Text style={styles.header}> RazorSharp </Text>
-        <Text style={styles.text}> {this.props.name} </Text>
-        <Text style={styles.text}> Ratings: {this.props.Last_Rated} </Text>
+        <Text style={styles.text}> {restaurantDetails.name} </Text>
+        <Text style={styles.text}> Ratings: {restaurantDetails.Last_Rated} </Text>
         {/* <Comments Comments={this.props.Comments} /> */}
         {/* <PersonalDetails Details={this.props.Details} /> */}
       </ScrollView>

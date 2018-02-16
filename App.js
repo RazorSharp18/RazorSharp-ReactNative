@@ -29,10 +29,10 @@ export default class App extends Component {
 }
 
   render() {
-    console.log(this.state.restaurantData);
+    const restaurantDetails = this.props.navigation.state.params.restaurantData;
     return (
       <View style={styles.container}>
-        <Details {...this.state.restaurantData} />
+        <Details restaurantDetails={restaurantDetails} />
       </View>
     );
   }
