@@ -1,54 +1,15 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, View, FlatList, TouchableOpacity } from 'react-native';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center'
-  },
-  title: {
-    paddingTop: 50,
-    paddingBottom: 15,
-    fontSize: 25,
-    alignSelf: 'stretch',
-    textAlign: 'center',
-  },
-  textStyles: {
-    height: 30,
-    width: 300,
-    backgroundColor: '#eef2f3',
-    borderWidth: 2,
-    borderColor: '#8e9eab',
-    textDecorationColor: 'black',
-    paddingLeft: 10,
-    borderRadius: 4
-  },
-  FlatListStyles: {
-    width: 290
-  },
-  FlatListTextStyles: {
-      padding: 5,
-      borderWidth: 1,
-      borderColor: '#8e9eab'
-  },
-});
-
+import { Text, TextInput, View, FlatList, TouchableOpacity } from 'react-native';
+import styles from '../Styles';
 export default class SearchBar extends React.Component {
-  // constructor() { 
-  //   super();
-  //     this.state = {
-  //     data: [],
-  //     searchData: ["enter"],
-  //     text: ''
-  //   }
-  //   this.TextChange = this.TextChange.bind(this,false);
-  // }
-
-  state = {
-    data: [],
-    searchData: [],
-    text: ''
+  // Try putting this in Constructor.
+  constructor(props) {
+    super(props);
+    state = {
+      data: [],
+      searchData: [],
+      text: ''
+    }; 
   }
 
   fetchData = async () => {
@@ -96,9 +57,14 @@ navigateToProfile = (name) => {
       <FlatList  style={styles.FlatListStyles}
         data = {this.state.searchData}
         keyExtractor={(x,i) => i}
-        renderItem= {({item}) => <TouchableOpacity onPress={()=>this.navigateToProfile(`${item.name}`)}><Text style={styles.FlatListTextStyles}>
-                                    {`${item.name}`}
-                                  </Text></TouchableOpacity>}
+        renderItem= {
+          ({item}) => (
+          <TouchableOpacity onPress={()=>this.navigateToProfile(`${item.name}`)}>
+            <Text style={styles.FlatListTextStyles}>
+              {`${item.name}`}
+            </Text>
+          </TouchableOpacity>)
+          }
         />
       </View>
     );
