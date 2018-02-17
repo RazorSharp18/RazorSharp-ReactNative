@@ -1,6 +1,6 @@
 import { AppRegistry } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import App from './App';
+import App from './Components/App';
 import SearchBar from './homePage/SearchBar';
 
 const Navigation = StackNavigator({
