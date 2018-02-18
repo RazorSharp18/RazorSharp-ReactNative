@@ -5,8 +5,8 @@ import {
   Text,
   View
 } from 'react-native';
-import Details from './Profiles/Details';
-import MockData from '../../__tests__/MockData/MockData';
+import RestaurantProfilesContainer from '../Components/RestaurantProfiles/RestaurantProfilesContainer';
+import styles from './Styles';
 
 export default class App extends Component {
   constructor(props){
@@ -18,8 +18,8 @@ export default class App extends Component {
   render() {
     const restaurantDetails = this.props.navigation.state.params.restaurantData;
     return (
-      <View style={styles.container}>
-        <Details restaurantDetails={restaurantDetails} />
+      <View style={styles.appContainer}>
+        <RestaurantProfilesContainer restaurantDetails={restaurantDetails} />
       </View>
     );
   }
