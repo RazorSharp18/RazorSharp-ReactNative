@@ -2,15 +2,13 @@ import React, { Component } from 'react';
 import { Text, TextInput, View, FlatList, TouchableOpacity } from 'react-native';
 import styles from '../Styles';
 export default class SearchBar extends React.Component {
+  
   // Try putting this in Constructor.
-  constructor(props) {
-    super(props);
-    state = {
-      data: [],
-      searchData: [],
-      text: ''
-    }; 
-  }
+  state = {
+    data: [],
+    searchData: [],
+    text: ''
+  }; 
 
   fetchData = async () => {
     if(this.state.text == ''){
@@ -58,12 +56,7 @@ navigateToProfile = (name) => {
         data = {this.state.searchData}
         keyExtractor={(x,i) => i}
         renderItem= {
-          ({item}) => (
-          <TouchableOpacity onPress={()=>this.navigateToProfile(`${item.name}`)}>
-            <Text style={styles.FlatListTextStyles}>
-              {`${item.name}`}
-            </Text>
-          </TouchableOpacity>)
+          ({item}) => <TouchableOpacity onPress={()=>this.navigateToProfile(`${item.name}`)}><Text style={styles.FlatListTextStyles}>{`${item.name}`}</Text></TouchableOpacity>
           }
         />
       </View>

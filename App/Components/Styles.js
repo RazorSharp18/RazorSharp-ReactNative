@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Image } from 'react-native';
 
 const styles = StyleSheet.create({
   // Container for Search Bar.
@@ -46,12 +46,20 @@ const styles = StyleSheet.create({
     margin: 30,
     backgroundColor: '#eaf4f2',
   },
+  // App Container
+  appContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'stretch',
+    backgroundColor: '#eaf4f2',
+  },
   // Locations Container.
   genericContainer: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-around',
     alignItems: 'center',
-    alignSelf: 'auto',
+    alignSelf: 'center',
     margin: 30,
     backgroundColor: '#eaf4f2',
   },
@@ -61,15 +69,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     fontSize: 20,
-    alignSelf: 'auto',
+    alignSelf: 'center',
+    paddingBottom: 10
   },
   // Generic Icons size.
   genericIconStyles: {
-    locationIcon: {
       width: 20,
       height: 25,
       resizeMode: Image.resizeMode.contain,
-    }
   },
   // Comments Container.
   commentsContainer: {
@@ -97,9 +104,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-around',
     alignItems: 'center',
-    fontSize: 20,
+    fontSize: 25,
     alignSelf: 'center',
-    marginTop: 20
+    marginTop: 50,
+    marginBottom: 10
   }
 });
 
