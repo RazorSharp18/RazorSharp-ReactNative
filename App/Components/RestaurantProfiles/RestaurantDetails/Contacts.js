@@ -1,12 +1,13 @@
 import React from 'react';
 import { ScrollView, Text, View, Image, StyleSheet } from 'react-native';
-import styles from '../../Styles';
+import globals from '../../globals';
+import styles from './styles';
 export default class Contacts extends React.Component {
   render() {
     return(
-      <View style={styles.genericContainer} key="Details">
-        <Image style={styles.genericIconStyles} source={require('../../../Assets/call.png')} />
-        <Text style={styles.genericContainerTextStyles}> {this.props.Contact} </Text>
+      <View style={styles.resturantProfilesContainerStyles} key="Details">
+        <Image style={globals.genericIconStyles} source={require('../../../Assets/call.png')} />
+        <Text style={globals.genericTextStyles}> {this.props.Contact} </Text>
       </View>
     );
   }

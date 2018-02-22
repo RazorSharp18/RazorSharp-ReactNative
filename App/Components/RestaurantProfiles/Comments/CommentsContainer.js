@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, Text, View, StyleSheet } from 'react-native';
 import Comment from './Comment';
-import Styles from '../../Styles';
+import styles from './styles';
 
 export default class Comments extends React.Component {
   render() {
