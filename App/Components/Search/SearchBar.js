@@ -7,12 +7,13 @@ import SearchList from './SearchList';
 
 export default class SearchBar extends React.Component {
   
-  // Try putting this in Constructor.
   constructor(props){
     super(props);
     this.state = {
       data: [],
       searchData: [],
+      text: '',
+      city: '',
       autocompleteData: [],
       onLoadData: [],
       text: '',
@@ -25,14 +26,11 @@ export default class SearchBar extends React.Component {
     }; 
   }
   
+  //Wil be called before loading SearchBar component
   componentWillMount(){
-    fetch('https://api.yelp.com/v3/businesses/search?location=Overland+Park', this.state.requestHeader)
-    .then((onLoadSearchList) => onLoadSearchList.json())
-    .then(function(onLoadSearchList) {
-      this.setState({onLoadData: onLoadSearchList['businesses']});
-      // this.props.navigation.navigate('Profile', {onLoadSearchList: onLoadSearchList});
-    }.bind(this));
-    
+
+    // A call to google maps api to get the city name.
+    // Use the variable "city" to get the name of the city. (this.state.city)
     navigator.geolocation.getCurrentPosition((position)=>{
       let latitude = parseFloat(position.coords.latitude);
       let longitude = parseFloat(position.coords.longitude);
@@ -44,9 +42,17 @@ export default class SearchBar extends React.Component {
           .then((cityName) => {
             this.setState({city: cityName.results[0].address_components[1].long_name});
             console.log(this.state.city);
-          })
-  })
-  }
+      })
+  });
+
+    //Gets the suggestions to the restaurants based on the users location before loading the searchBar Component
+    fetch('https://api.yelp.com/v3/businesses/search?location=Overland+Park', this.state.requestHeader)
+      .then((onLoadSearchList) => onLoadSearchList.json())
+      .then(function(onLoadSearchList) {
+        this.setState({onLoadData: onLoadSearchList['businesses']});
+        // this.props.navigation.navigate('Profile', {onLoadSearchList: onLoadSearchList});
+      }.bind(this));  
+    }
   
 //   fetchData = async () => {
 //     if(this.state.text == ''){
