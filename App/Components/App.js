@@ -6,7 +6,7 @@ import {
   View
 } from 'react-native';
 import RestaurantProfilesContainer from '../Components/RestaurantProfiles/RestaurantProfilesContainer';
-import styles from './Styles';
+import globals from './globals';
 
 export default class App extends Component {
   constructor(props){
@@ -18,7 +18,7 @@ export default class App extends Component {
   render() {
     const restaurantDetails = this.props.navigation.state.params.restaurantData;
     return (
-      <View style={styles.appContainer}>
+      <View style={globals.appContainer}>
         <RestaurantProfilesContainer restaurantDetails={restaurantDetails} />
       </View>
     );

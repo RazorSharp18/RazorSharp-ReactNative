@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, TextInput, View, FlatList, TouchableOpacity } from 'react-native';
-import styles from '../Styles';
+import styles from './styles';
+import globals from '../globals';
 export default class SearchBar extends React.Component {
   
   // Try putting this in Constructor.
@@ -40,11 +41,11 @@ navigateToProfile = (name) => {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={styles.searchContainer}>
 
-      <Text style={styles.title}>Razor Sharp</Text>
+      <Text style={globals.genericHeader}>Razor Sharp</Text>
       <TextInput
-        style={styles.textStyles}
+        style={styles.searchBarTextStyles}
         placeholder="Search"
         onFocus={this.fetchData}
         onChangeText={(enteredText) => {
@@ -52,11 +53,11 @@ navigateToProfile = (name) => {
         }}
 
       />
-      <FlatList  style={styles.FlatListStyles}
+      <FlatList  style={styles.flatListStyles}
         data = {this.state.searchData}
         keyExtractor={(x,i) => i}
         renderItem= {
-          ({item}) => <TouchableOpacity onPress={()=>this.navigateToProfile(`${item.name}`)}><Text style={styles.FlatListTextStyles}>{`${item.name}`}</Text></TouchableOpacity>
+          ({item}) => <TouchableOpacity onPress={()=>this.navigateToProfile(`${item.name}`)}><Text style={styles.flatListTextStyles}>{`${item.name}`}</Text></TouchableOpacity>
           }
         />
       </View>
