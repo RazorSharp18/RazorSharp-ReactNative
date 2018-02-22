@@ -1,4 +1,15 @@
 import { AppRegistry } from 'react-native';
-import App from './App';
+import { StackNavigator } from 'react-navigation';
+import App from './App/Components/App';
+import SearchBar from './App/Components/Search/SearchBar';
 
-AppRegistry.registerComponent('RazorSharp', () => App);
+const Navigation = StackNavigator({
+  Home: {
+    screen: SearchBar
+  },
+  Profile: {
+    screen: App
+  }
+})
+
+AppRegistry.registerComponent('RazorSharp', () => Navigation);
