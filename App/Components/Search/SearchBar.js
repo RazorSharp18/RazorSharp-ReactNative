@@ -33,6 +33,19 @@ export default class SearchBar extends React.Component {
       // this.props.navigation.navigate('Profile', {onLoadSearchList: onLoadSearchList});
     }.bind(this));
     
+    navigator.geolocation.getCurrentPosition((position)=>{
+      let latitude = parseFloat(position.coords.latitude);
+      let longitude = parseFloat(position.coords.longitude);
+      console.log("Latitude is "+ latitude);
+      console.log("Longitude is "+ longitude);
+
+      fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyBUHSjJGapw---3GdW-LyjhTk-gjt1W_m8`)
+          .then((response)=> response.json())
+          .then((cityName) => {
+            this.setState({city: cityName.results[0].address_components[1].long_name});
+            console.log(this.state.city);
+          })
+  })
   }
   
 //   fetchData = async () => {
@@ -75,7 +88,7 @@ export default class SearchBar extends React.Component {
         console.log("before autocomplete"+this.state.searchData)
       }.bind(this));
     }
-}
+  }
 
   navigateToProfile = (name) => {
     fetch('http://localhost:3001/restaurant/'+name)
