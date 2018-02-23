@@ -7,7 +7,8 @@ export default class SearchBar extends React.Component {
   state = {
     data: [],
     searchData: [],
-    text: ''
+    text: '',
+    geoposition: {}
   }; 
 
   fetchData = async () => {
@@ -36,6 +37,13 @@ navigateToProfile = (name) => {
   .then(function(restaurantData) {
     this.props.navigation.navigate('Profile', {restaurantData: restaurantData});
   }.bind(this));
+}
+
+componentWillMount() {
+  this.location = navigator.geolocation.getCurrentPosition((position)=>{
+      this.setState.geoposition = position;
+      console.log(position);
+  })
 }
 
   render() {
