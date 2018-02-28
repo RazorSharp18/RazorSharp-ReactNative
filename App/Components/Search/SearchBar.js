@@ -7,14 +7,13 @@ export default class SearchBar extends React.Component {
   state = {
     data: [],
     searchData: [],
-    text: '',
-    geoposition: {}
+    text: ''
   }; 
 
   fetchData = async () => {
-    if(this.state.text == ''){
-    const response = await fetch('http://localhost:3001/restaurants/names')
-    .then((resp) => resp.json())
+    if(this.state.text === ''){
+    await fetch('http://localhost:3001/restaurants/names')
+        .then((resp) => resp.json())
     .then(function(resp) {
       this.setState({data: resp});
       this.setState({searchData: [].concat(this.state.data)})
@@ -40,10 +39,19 @@ navigateToProfile = (name) => {
 }
 
 componentWillMount() {
-  this.location = navigator.geolocation.getCurrentPosition((position)=>{
-      this.setState.geoposition = position;
-      console.log(position);
+  navigator.geolocation.getCurrentPosition((position)=>{
+      let latitude = parseFloat(position.coords.latitude);
+      let longitude = parseFloat(position.coords.longitude);
+      console.log("Latitude is "+ latitude);
+      console.log("Longitude is "+ longitude);
+
+      fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyBUHSjJGapw---3GdW-LyjhTk-gjt1W_m8`)
+          .then((cityName)=> cityName.json())
+          .then((city) => {
+            console.log(city.results[0].address_components[1].long_name);
+          })
   })
+
 }
 
   render() {
