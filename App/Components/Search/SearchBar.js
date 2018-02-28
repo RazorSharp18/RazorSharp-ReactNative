@@ -3,12 +3,15 @@ import { Text, TextInput, View, FlatList, TouchableOpacity } from 'react-native'
 import styles from '../Styles';
 export default class SearchBar extends React.Component {
   
-  // Try putting this in Constructor.
-  state = {
-    data: [],
-    searchData: [],
-    text: ''
-  }; 
+  constructor(props) {
+    super(props);
+    this.state = {
+        data: [],
+        searchData: [],
+        text: '',
+        city: ''
+    }
+  }
 
   fetchData = async () => {
     if(this.state.text === ''){
@@ -38,6 +41,8 @@ navigateToProfile = (name) => {
   }.bind(this));
 }
 
+//Before loading searchBar component, we are making a call to google maps api to get the city name.
+// Use the variable "city" to get the name of the city. (this.state.city);
 componentWillMount() {
   navigator.geolocation.getCurrentPosition((position)=>{
       let latitude = parseFloat(position.coords.latitude);
@@ -46,9 +51,10 @@ componentWillMount() {
       console.log("Longitude is "+ longitude);
 
       fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyBUHSjJGapw---3GdW-LyjhTk-gjt1W_m8`)
-          .then((cityName)=> cityName.json())
-          .then((city) => {
-            console.log(city.results[0].address_components[1].long_name);
+          .then((response)=> response.json())
+          .then((cityName) => {
+            this.setState({city: cityName.results[0].address_components[1].long_name});
+            console.log(this.state.city);
           })
   })
 
