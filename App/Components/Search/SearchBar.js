@@ -4,6 +4,7 @@ import styles from './styles';
 import globals from '../globals';
 import RestaurantsList from '../SuggestedRestaurantsList/RestaurantsList';
 import SearchList from './SearchList';
+import FixingIt from '../CustomErrors/DefaultError';
 
 export default class SearchBar extends React.Component {
   
@@ -14,9 +15,11 @@ export default class SearchBar extends React.Component {
       searchData: [],
       text: '',
       city: '',
+      location: [],
       autocompleteData: [],
       onLoadData: [],
       text: '',
+      encounteredError: false,
       requestHeader: {  
         method: 'GET',
         headers: {
@@ -34,26 +37,29 @@ export default class SearchBar extends React.Component {
     navigator.geolocation.getCurrentPosition((position)=>{
       let latitude = parseFloat(position.coords.latitude);
       let longitude = parseFloat(position.coords.longitude);
-      console.log("Latitude is "+ latitude);
-      console.log("Longitude is "+ longitude);
-
+      this.setState({location: position});
       fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyBUHSjJGapw---3GdW-LyjhTk-gjt1W_m8`)
           .then((response)=> response.json())
           .then((cityName) => {
             this.setState({city: cityName.results[0].address_components[1].long_name});
-            console.log(this.state.city);
-      })
-  });
+      }).catch(function(error) {
+          console.log(error);
+          this.setState({encounteredError: true});
+      });
+      
 
-    //Gets the suggestions to the restaurants based on the users location before loading the searchBar Component
-    fetch('https://api.yelp.com/v3/businesses/search?location=Overland+Park', this.state.requestHeader)
-      .then((onLoadSearchList) => onLoadSearchList.json())
-      .then(function(onLoadSearchList) {
-        this.setState({onLoadData: onLoadSearchList['businesses']});
-        // this.props.navigation.navigate('Profile', {onLoadSearchList: onLoadSearchList});
-      }.bind(this));  
-    }
-  
+      //Gets the suggestions to the restaurants based on the users location on loading the searchBar Component
+      fetch('https://api.yelp.com/v3/businesses/search?term=&latitude='+latitude+'&longitude='+longitude, this.state.requestHeader)
+        .then((onLoadSearchList)=> onLoadSearchList.json())
+        .then((onLoadSearchList) => {
+          this.setState({onLoadData: onLoadSearchList['businesses']});
+      }).catch(function(error) {
+        console.log(error);
+        this.setState({encounteredError: true});
+    }); 
+    }); 
+  }
+
 //   fetchData = async () => {
 //     if(this.state.text == ''){
 //     const response = await fetch('http://localhost:3001/restaurants/names')
@@ -66,33 +72,32 @@ export default class SearchBar extends React.Component {
 // }
 
   TextChange = (textEntered) => {
-    this.state.searchData = [];
-    this.state.text = textEntered;
+    this.setState({searchData: []});
+    this.setState({text: textEntered});
     if(textEntered != ""){
-      /**
-       * Gets the autocomplete suggestions from YELP as the user types in the search bar
-       */
-      fetch('https://api.yelp.com/v3/businesses/search?term='+textEntered+'&latitude=38.925755&longitude=-94.687183', this.state.requestHeader)
+      //  Gets the autocomplete suggestions from YELP as the user types in the search bar
+      fetch('https://api.yelp.com/v3/businesses/search?term='+textEntered+'&location='+this.state.city, this.state.requestHeader)
       .then((autoCompleteSuggestions) => autoCompleteSuggestions.json())
-      .then(function(autoCompleteSuggestions) {
-        console.log("before search"+this.state.searchData)
+      .then((autoCompleteSuggestions)=> {
         this.setState({searchData: this.state.searchData.concat(autoCompleteSuggestions.businesses)});
-        console.log("after search"+this.state.searchData)
-      }.bind(this));
+      }).catch(function(error) {
+        console.log(error);
+        this.setState({encounteredError: true});
+    });
 
       /**
        * Searches for the keyword being typed in the search box. This is more accurate than autocomplete options.
        * If a restaurant is already in the autocomplete search data, this function checks and removes the duplicate
        * restaurant names
        */
-      fetch('https://api.yelp.com/v3/autocomplete?text='+textEntered+'&latitude=38.925755&longitude=-94.687183', this.state.requestHeader)
+      fetch('https://api.yelp.com/v3/autocomplete?text='+textEntered+'&latitude='+this.state.location.coords.latitude+'&longitude='+this.state.location.coords.longitude, this.state.requestHeader)
       .then((searchSuggestions) => searchSuggestions.json())
-      .then(function(searchSuggestions) {
-        console.log("before autocomplete"+this.state.searchData)
-        // searchSuggestions = Array.from(new Set(searchSuggestions))
+      .then((searchSuggestions)=> {
         this.setState({searchData: Array.from(new Set(this.state.searchData.concat((searchSuggestions.businesses))))});
-        console.log("before autocomplete"+this.state.searchData)
-      }.bind(this));
+      }).catch(function(error) {
+        console.log(error);
+        this.setState({encounteredError: true});
+    });
     }
   }
 
@@ -108,24 +113,67 @@ export default class SearchBar extends React.Component {
   //   this.navigateToProfile(title);
   // };
 
-  render() { 
-    return (
-      <View style={styles.combine}>
+  searchContent = () => {
+    if(this.state.text && this.state.text.length > 0) {
+      // Some valid text in search box - Load Search List
+      return (
         <View style={styles.searchContainer}>
           <TextInput
-            style={styles.searchBarTextStyles}
-            placeholder="Search"
-            onFocus={this.fetchData}
-            onChangeText={(enteredText) => {
-              this.TextChange(enteredText);
-            }}
-          />
+              style={styles.searchBarTextStyles}
+              placeholder="Search"
+              onFocus={this.fetchData}
+              onChangeText={(enteredText) => {
+                this.TextChange(enteredText);
+              }}
+            />
           <SearchList navigate={this.navigateToProfile} searchData={this.state.searchData} />
         </View>
+      );
+    } else {
+      // No text in search box.
+      return (
+        <View style={styles.searchContainer}>
+          <TextInput
+              style={styles.searchBarTextStyles}
+              placeholder="Search"
+              onFocus={this.fetchData}
+              onChangeText={(enteredText) => {
+                this.TextChange(enteredText);
+              }}
+          />
+        </View>
+      );
+    }
+  }
+
+  loadSuggestions = () => {
+    if(this.state.text && this.state.text.length > 0 ){
+      // if user is typing in search box, remove the default suggestions
+      return null;
+    } else {
+      // if user is not typing in search box, display default suggestions list below.
+      return (
         <View style={styles.suggestionsContainer}>
           <RestaurantsList data={this.state.onLoadData} onPressItem={this._onPressItem} />
         </View>
-      </View>
+      );
+    }
+  }
+
+  render() { 
+    let content = null;
+    if(this.state.encounteredError) {
+      content = (<FixingIt />);
+    } else {
+      content = (
+        <View style={styles.combine}>
+          {this.searchContent()}
+          {this.loadSuggestions()}
+        </View>
+      );
+    }
+    return (
+      content
     );
   }
 }
