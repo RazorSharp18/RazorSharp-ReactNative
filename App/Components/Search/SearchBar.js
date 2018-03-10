@@ -123,7 +123,7 @@ export default class SearchBar extends React.Component {
                 this.TextChange(enteredText);
               }}
             />
-          <SearchList navigate={this.navigateToProfile} searchData={this.state.searchData} onPressItem={this._onPressItem} />
+          <SearchList navigate={this.navigateToProfile} searchData={this.state.searchData} location={this.state.location} onPressItem={this._onPressItem} />
         </View>
       );
     } else {
