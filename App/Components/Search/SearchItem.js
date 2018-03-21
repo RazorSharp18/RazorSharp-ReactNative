@@ -4,14 +4,18 @@ import styles from './styles';
 
 const noImage = require('../../Assets/notFound.jpg');
 class SearchItem extends React.Component {
+
+  _onPress = () => {
+    this.props.onPressItem(this.props.index, this.props.item);
+  }
+
   render() {
     // TODO: Create navigate(name) prop inside SearchBar
     let item;
-    distance = '5m';
-    ratings = '5';
 
     if( this.props.item != undefined){
       if (this.props.item.hasOwnProperty('image_url')) {
+        //TODO-This is similar to SuggestedRestaurant component. Might have to use it.
         item = (
           <View style={styles.rowContainer}>        
             {this.props.item.image_url ? <Image style={styles.restaurantImage} source={{uri: this.props.item.image_url}} /> : <Image style={styles.restaurantImage} source={noImage} />}
@@ -34,7 +38,7 @@ class SearchItem extends React.Component {
   }
     return (
       <TouchableOpacity 
-        onPress={()=>this.props.navigate(`${this.props.item.name}`)}>
+        onPress={this._onPress}>
         <View>
           {item}
         </View>

@@ -5,21 +5,23 @@ import {
   Text,
   View
 } from 'react-native';
-import RestaurantProfilesContainer from '../Components/RestaurantProfiles/RestaurantProfilesContainer';
+import RestaurantProfilesContainer from './RestaurantProfile/RestaurantProfileContainer';
 import globals from './globals';
 
-export default class App extends Component {
-  constructor(props){
-    super(props);
-    this.name = props.name;
-    this.state = { restaurantData: [] };
-}
+export default class App extends React.Component {
+
+    constructor(props){
+        super(props);
+        this.state = {
+          restaurantId : "",
+        };
+    }
 
   render() {
-    const restaurantDetails = this.props.navigation.state.params.restaurantData;
+    const restaurantId = this.props.navigation.state.params.restaurantId;
     return (
-      <View style={globals.appContainer}>
-        <RestaurantProfilesContainer restaurantDetails={restaurantDetails} />
+      <View >
+         <RestaurantProfilesContainer restaurantId={restaurantId} />
       </View>
     );
   }
