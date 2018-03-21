@@ -101,21 +101,18 @@ export default class SearchBar extends React.Component {
     }
   }
 
-  navigateToProfile = (name) => {
-    fetch('http://localhost:3001/restaurant/'+name)
-    .then((restaurantData) => restaurantData.json())
-    .then(function(restaurantData) {
-      this.props.navigation.navigate('Profile', {restaurantData: restaurantData});
-    }.bind(this));
+  navigateToProfile = (restaurantId) => {
+    this.props.navigation.navigate('Profile', {restaurantId: restaurantId});
   }
 
-  // _onPressItem = (index, title) => {
-  //   this.navigateToProfile(title);
-  // };
+  _onPressItem = (index, restaurant) => {
+    this.navigateToProfile(restaurant.id);
+  };
 
   searchContent = () => {
     if(this.state.text && this.state.text.length > 0) {
       // Some valid text in search box - Load Search List
+      //TODO-This returns similar views in if and else. See if we can break into a a component and reuse it.
       return (
         <View style={styles.searchContainer}>
           <TextInput
@@ -126,11 +123,11 @@ export default class SearchBar extends React.Component {
                 this.TextChange(enteredText);
               }}
             />
-          <SearchList navigate={this.navigateToProfile} searchData={this.state.searchData} />
+          <SearchList navigate={this.navigateToProfile} searchData={this.state.searchData} onPressItem={this._onPressItem} />
         </View>
       );
     } else {
-      // No text in search box.
+      // No text in search box. Displays only empty searchbox
       return (
         <View style={styles.searchContainer}>
           <TextInput
@@ -146,12 +143,13 @@ export default class SearchBar extends React.Component {
     }
   }
 
+  //Loads default list of restaurants on the home page based on user's location.
   loadSuggestions = () => {
     if(this.state.text && this.state.text.length > 0 ){
-      // if user is typing in search box, remove the default suggestions
+      // if user is typing in search box, remove the defaultly loaded suggestions
       return null;
     } else {
-      // if user is not typing in search box, display default suggestions list below.
+      // if user is not typing in search box, display load the default suggestions on home page.
       return (
         <View style={styles.suggestionsContainer}>
           <RestaurantsList data={this.state.onLoadData} onPressItem={this._onPressItem} />

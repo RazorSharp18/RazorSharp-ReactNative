@@ -5,7 +5,7 @@ import SearchBar from './App/Components/Search/SearchBar';
 
 const Navigation = StackNavigator({
   Home: {
-    screen: App
+    screen: SearchBar
   },
   Profile: {
     screen: App

@@ -9,7 +9,11 @@ class SearchList extends React.Component {
         data={this.props.searchData}
         keyExtractor={(x,i) => i}
         renderItem={
-          ({item, index}) => <SearchItem item={item} searched={true} navigate={this.props.navigate} />
+          ({item, index}) => <SearchItem item={item} 
+          key={index}
+          index={index} 
+          searched={true} 
+          onPressItem={this.props.onPressItem} />
         }
       />
     );

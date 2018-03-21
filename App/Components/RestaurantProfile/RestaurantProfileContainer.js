@@ -8,7 +8,7 @@ class Details extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          restaurantInfo : {},
+          restaurantId : this.props.restaurantId,
             restaurantName : "",
             restaurantAddress : "",
             restaurantPhone: "",
@@ -23,7 +23,7 @@ class Details extends React.Component {
             }
         }
 
-        fetch('https://api.yelp.com/v3/businesses/ulavacharu-sunnyvale-2', this.state.requestHeader)
+        fetch('https://api.yelp.com/v3/businesses/'+this.state.restaurantId, this.state.requestHeader)
             .then((restaurantData) => restaurantData.json())
             .then((restaurantData) => {
                 this.setState({
@@ -37,7 +37,7 @@ class Details extends React.Component {
             console.log("Error in Getting single restaurant data");
         });
 
-        fetch('https://api.yelp.com/v3/businesses/ulavacharu-sunnyvale-2/reviews', this.state.requestHeader)
+        fetch('https://api.yelp.com/v3/businesses/'+this.state.restaurantId+'/reviews', this.state.requestHeader)
             .then((restaurantReviewsData) => restaurantReviewsData.json())
             .then((restaurantReviewsData) => {
                 this.setState({

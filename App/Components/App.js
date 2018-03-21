@@ -13,17 +13,15 @@ export default class App extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            restaurantProfileData : {},
-
+          restaurantId : "",
         };
     }
 
-
-
   render() {
+    const restaurantId = this.props.navigation.state.params.restaurantId;
     return (
       <View >
-        <RestaurantProfilesContainer/>
+         <RestaurantProfilesContainer restaurantId={restaurantId} />
       </View>
     );
   }
