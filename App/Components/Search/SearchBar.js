@@ -152,7 +152,7 @@ export default class SearchBar extends React.Component {
       // if user is not typing in search box, display load the default suggestions on home page.
       return (
         <View style={styles.suggestionsContainer}>
-          <RestaurantsList data={this.state.onLoadData} onPressItem={this._onPressItem} />
+          <RestaurantsList data={this.state.onLoadData} location={this.state.location} onPressItem={this._onPressItem} />
         </View>
       );
     }

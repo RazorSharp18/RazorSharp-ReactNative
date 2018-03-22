@@ -27,6 +27,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 5
   },
+  subDetails: {
+    fontSize: 14,
+    color: '#656565'
+  },
+  additionalDetails: {
+    flex: 2,
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+
+  additionalDetails2: {
+    flex: 2,
+    flexDirection: "row",
+    justifyContent: "flex-end"
+  },
 });
 
 export default styles;
