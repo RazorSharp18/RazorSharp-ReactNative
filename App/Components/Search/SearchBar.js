@@ -49,7 +49,7 @@ export default class SearchBar extends React.Component {
       
 
       //Gets the suggestions to the restaurants based on the users location on loading the searchBar Component
-      fetch('https://api.yelp.com/v3/businesses/search?term=&latitude='+latitude+'&longitude='+longitude, this.state.requestHeader)
+      fetch('https://api.yelp.com/v3/businesses/search?term=&latitude='+latitude+'&longitude='+longitude+"&categories=restaurants", this.state.requestHeader)
         .then((onLoadSearchList)=> onLoadSearchList.json())
         .then((onLoadSearchList) => {
           this.setState({onLoadData: onLoadSearchList['businesses']});
@@ -76,7 +76,7 @@ export default class SearchBar extends React.Component {
     this.setState({text: textEntered});
     if(textEntered != ""){
       //  Searched for restaurants from YELP API as the user types in the search bar
-      fetch('https://api.yelp.com/v3/businesses/search?term='+textEntered+'&location='+this.state.city, this.state.requestHeader)
+      fetch('https://api.yelp.com/v3/businesses/search?term='+textEntered+'&location='+this.state.city+"&categories=restaurants", this.state.requestHeader)
       .then((autoCompleteSuggestions) => autoCompleteSuggestions.json())
       .then((autoCompleteSuggestions)=> {
         this.setState({searchData: this.state.searchData.concat(autoCompleteSuggestions.businesses)});
@@ -86,14 +86,14 @@ export default class SearchBar extends React.Component {
     });
 
       /**
-       * Autocompletes or Searches for the keyword being typed in the search box. This is more accurate than above search list.
+       * Autocompletes or Searches for the keyword being typed in the search box.
        * If a restaurant is already in the autocomplete search data, this function checks and removes the duplicate
        * restaurant names
        */
       fetch('https://api.yelp.com/v3/autocomplete?text='+textEntered+'&latitude='+this.state.location.coords.latitude+'&longitude='+this.state.location.coords.longitude, this.state.requestHeader)
       .then((searchSuggestions) => searchSuggestions.json())
       .then((searchSuggestions)=> {
-        this.setState({searchData: Array.from(new Set(this.state.searchData.concat((searchSuggestions.businesses))))});
+        this.setState({searchData: (this.state.searchData.concat(Array.from(new Set(searchSuggestions.businesses))))});
       }).catch(function(error) {
         console.log("Error searching based on words typed ",error);
         this.setState({encounteredError: true});

@@ -11,7 +11,6 @@ export default class SuggestedRestaurant extends React.PureComponent {
     const item = this.props.item;
     if(this.props.item.coordinates.latitude && this.props.item.coordinates.longitude) {
       distance = geolib.getDistance({latitude: this.props.location.coords.latitude, longitude: this.props.location.coords.longitude}, {latitude: this.props.item.coordinates.latitude, longitude: this.props.item.coordinates.longitude });
-      console.log(geolib.convertUnit('mi', distance, 2));
     }
 
     const flexSubDetailsStyle = this.props.item.price ? styles.additionalDetails : styles.additionalDetails2
