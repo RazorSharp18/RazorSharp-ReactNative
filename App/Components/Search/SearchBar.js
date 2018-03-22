@@ -43,7 +43,7 @@ export default class SearchBar extends React.Component {
           .then((cityName) => {
             this.setState({city: cityName.results[0].address_components[1].long_name});
       }).catch(function(error) {
-          console.log(error);
+          console.log("Error in getting geo-location",error);
           this.setState({encounteredError: true});
       });
       
@@ -54,7 +54,7 @@ export default class SearchBar extends React.Component {
         .then((onLoadSearchList) => {
           this.setState({onLoadData: onLoadSearchList['businesses']});
       }).catch(function(error) {
-        console.log(error);
+        console.log("Error suggesting default restaurants",error);
         this.setState({encounteredError: true});
     }); 
     }); 
@@ -75,18 +75,18 @@ export default class SearchBar extends React.Component {
     this.setState({searchData: []});
     this.setState({text: textEntered});
     if(textEntered != ""){
-      //  Gets the autocomplete suggestions from YELP as the user types in the search bar
+      //  Searched for restaurants from YELP API as the user types in the search bar
       fetch('https://api.yelp.com/v3/businesses/search?term='+textEntered+'&location='+this.state.city, this.state.requestHeader)
       .then((autoCompleteSuggestions) => autoCompleteSuggestions.json())
       .then((autoCompleteSuggestions)=> {
         this.setState({searchData: this.state.searchData.concat(autoCompleteSuggestions.businesses)});
       }).catch(function(error) {
-        console.log(error);
+        console.log("Error getting autocomplete suggestions",error);
         this.setState({encounteredError: true});
     });
 
       /**
-       * Searches for the keyword being typed in the search box. This is more accurate than autocomplete options.
+       * Autocompletes or Searches for the keyword being typed in the search box. This is more accurate than above search list.
        * If a restaurant is already in the autocomplete search data, this function checks and removes the duplicate
        * restaurant names
        */
@@ -95,7 +95,7 @@ export default class SearchBar extends React.Component {
       .then((searchSuggestions)=> {
         this.setState({searchData: Array.from(new Set(this.state.searchData.concat((searchSuggestions.businesses))))});
       }).catch(function(error) {
-        console.log(error);
+        console.log("Error searching based on words typed ",error);
         this.setState({encounteredError: true});
     });
     }

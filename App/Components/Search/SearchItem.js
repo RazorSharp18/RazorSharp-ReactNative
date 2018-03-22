@@ -10,18 +10,17 @@ class SearchItem extends React.Component {
     this.props.onPressItem(this.props.index, this.props.item);
   }
 
+  /**
+   * This renders a text if there is no image_url in the response or 
+   * it renders a row with image, restaurant name, $$ value and distance if image is present in the search response
+   */
   render() {
-    // TODO: Create navigate(name) prop inside SearchBar
-    let item;
-    ratings = '5';
-    distance = null;
+    let item; //Property being rendered as name of the restaurant or a row with name, image, ratings and the distance. 
+    restaurantDistance = null;
     if( this.props.item != undefined){
       if (this.props.item.hasOwnProperty('image_url')) {
-        console.log(this.props.item);
-        console.log(this.props.location);
         if(this.props.item.coordinates.latitude && this.props.item.coordinates.longitude) {
-          distance = geolib.getDistance({latitude: this.props.location.coords.latitude, longitude: this.props.location.coords.longitude}, {latitude: this.props.item.coordinates.latitude, longitude: this.props.item.coordinates.longitude });
-          console.log(geolib.convertUnit('mi', distance, 2));
+          restaurantDistance = geolib.getDistance({latitude: this.props.location.coords.latitude, longitude: this.props.location.coords.longitude}, {latitude: this.props.item.coordinates.latitude, longitude: this.props.item.coordinates.longitude });
         }
         const flexSubDetailsStyle = this.props.item.price ? styles.additionalDetails : styles.additionalDetails2
         item = (
@@ -32,7 +31,7 @@ class SearchItem extends React.Component {
               <Text style={styles.ratings} numberOfLines={1}>{`${this.props.item.rating}`}</Text>
               <View style={flexSubDetailsStyle}>
                 {this.props.item.price ? <Text style={styles.subDetails} numberOfLines={1}>{`${this.props.item.price}`} </Text> : null}
-                {distance ? <Text style={styles.subDetails} numberOfLines={1}>{`${geolib.convertUnit('mi', distance, 2)} Miles`}</Text> : null}
+                {restaurantDistance ? <Text style={styles.subDetails} numberOfLines={1}>{`${geolib.convertUnit('mi', restaurantDistance, 2)} Miles`}</Text> : null}
               </View>
             </View>
           </View>
