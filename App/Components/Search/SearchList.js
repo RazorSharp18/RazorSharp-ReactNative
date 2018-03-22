@@ -12,7 +12,8 @@ class SearchList extends React.Component {
           ({item, index}) => <SearchItem item={item} 
           key={index}
           index={index} 
-          searched={true} 
+          searched={true}
+          location={this.props.location}
           onPressItem={this.props.onPressItem} />
         }
       />

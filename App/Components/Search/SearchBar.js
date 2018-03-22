@@ -43,18 +43,18 @@ export default class SearchBar extends React.Component {
           .then((cityName) => {
             this.setState({city: cityName.results[0].address_components[1].long_name});
       }).catch(function(error) {
-          console.log(error);
+          console.log("Error in getting geo-location",error);
           this.setState({encounteredError: true});
       });
       
 
       //Gets the suggestions to the restaurants based on the users location on loading the searchBar Component
-      fetch('https://api.yelp.com/v3/businesses/search?term=&latitude='+latitude+'&longitude='+longitude, this.state.requestHeader)
+      fetch('https://api.yelp.com/v3/businesses/search?term=&latitude='+latitude+'&longitude='+longitude+"&categories=restaurants", this.state.requestHeader)
         .then((onLoadSearchList)=> onLoadSearchList.json())
         .then((onLoadSearchList) => {
           this.setState({onLoadData: onLoadSearchList['businesses']});
       }).catch(function(error) {
-        console.log(error);
+        console.log("Error suggesting default restaurants",error);
         this.setState({encounteredError: true});
     }); 
     }); 
@@ -75,27 +75,27 @@ export default class SearchBar extends React.Component {
     this.setState({searchData: []});
     this.setState({text: textEntered});
     if(textEntered != ""){
-      //  Gets the autocomplete suggestions from YELP as the user types in the search bar
-      fetch('https://api.yelp.com/v3/businesses/search?term='+textEntered+'&location='+this.state.city, this.state.requestHeader)
+      //  Searched for restaurants from YELP API as the user types in the search bar
+      fetch('https://api.yelp.com/v3/businesses/search?term='+textEntered+'&location='+this.state.city+"&categories=restaurants", this.state.requestHeader)
       .then((autoCompleteSuggestions) => autoCompleteSuggestions.json())
       .then((autoCompleteSuggestions)=> {
         this.setState({searchData: this.state.searchData.concat(autoCompleteSuggestions.businesses)});
       }).catch(function(error) {
-        console.log(error);
+        console.log("Error getting autocomplete suggestions",error);
         this.setState({encounteredError: true});
     });
 
       /**
-       * Searches for the keyword being typed in the search box. This is more accurate than autocomplete options.
+       * Autocompletes or Searches for the keyword being typed in the search box.
        * If a restaurant is already in the autocomplete search data, this function checks and removes the duplicate
        * restaurant names
        */
       fetch('https://api.yelp.com/v3/autocomplete?text='+textEntered+'&latitude='+this.state.location.coords.latitude+'&longitude='+this.state.location.coords.longitude, this.state.requestHeader)
       .then((searchSuggestions) => searchSuggestions.json())
       .then((searchSuggestions)=> {
-        this.setState({searchData: Array.from(new Set(this.state.searchData.concat((searchSuggestions.businesses))))});
+        this.setState({searchData: (this.state.searchData.concat(Array.from(new Set(searchSuggestions.businesses))))});
       }).catch(function(error) {
-        console.log(error);
+        console.log("Error searching based on words typed ",error);
         this.setState({encounteredError: true});
     });
     }
@@ -123,7 +123,7 @@ export default class SearchBar extends React.Component {
                 this.TextChange(enteredText);
               }}
             />
-          <SearchList navigate={this.navigateToProfile} searchData={this.state.searchData} onPressItem={this._onPressItem} />
+          <SearchList navigate={this.navigateToProfile} searchData={this.state.searchData} location={this.state.location} onPressItem={this._onPressItem} />
         </View>
       );
     } else {
@@ -152,7 +152,7 @@ export default class SearchBar extends React.Component {
       // if user is not typing in search box, display load the default suggestions on home page.
       return (
         <View style={styles.suggestionsContainer}>
-          <RestaurantsList data={this.state.onLoadData} onPressItem={this._onPressItem} />
+          <RestaurantsList data={this.state.onLoadData} location={this.state.location} onPressItem={this._onPressItem} />
         </View>
       );
     }

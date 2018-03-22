@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#656565'
   },
-  distance: {
+  subDetails: {
     fontSize: 14,
     color: '#656565'
   },
@@ -63,7 +63,18 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     marginRight: 10
-  }
+  },
+  additionalDetails: {
+    flex: 2,
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+
+  additionalDetails2: {
+    flex: 2,
+    flexDirection: "row",
+    justifyContent: "flex-end"
+  },
 });
 
 export default styles;

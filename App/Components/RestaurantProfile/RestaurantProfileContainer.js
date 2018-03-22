@@ -34,7 +34,7 @@ class Details extends React.Component {
                     restaurantImage: restaurantData.image_url
                     });
             }).catch(function (error) {
-            console.log("Error in Getting single restaurant data");
+            console.log("Error in Getting single restaurant data ", error);
         });
 
         fetch('https://api.yelp.com/v3/businesses/'+this.state.restaurantId+'/reviews', this.state.requestHeader)
@@ -43,7 +43,6 @@ class Details extends React.Component {
                 this.setState({
                     restaurantReviews: restaurantReviewsData.reviews
                 })
-                console.log(this.state.restaurantReviews);
             })
     }
 

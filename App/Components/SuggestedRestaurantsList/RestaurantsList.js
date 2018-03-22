@@ -16,6 +16,7 @@ class RestaurantsList extends React.PureComponent {
           item={item}
           key={index}
           index={index}
+          location={this.props.location} 
           onPressItem={this.props.onPressItem}
         />
         }
