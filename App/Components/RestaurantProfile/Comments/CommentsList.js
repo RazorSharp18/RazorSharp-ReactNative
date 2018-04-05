@@ -18,7 +18,6 @@ export default class CommentsList extends React.Component {
 
         return(
             <View style={Styles.CommentsContainer}>
-                <Text style={Styles.CommentsTitle}>Comments</Text>
                 {commentsList}
             </View>
         );

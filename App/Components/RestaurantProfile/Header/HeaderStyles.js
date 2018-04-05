@@ -14,12 +14,12 @@ const Styles = StyleSheet.create({
         resizeMode: 'cover',
         borderWidth: 3,
         borderColor: 'white',
-        borderRadius: 5,
-        marginVertical: 10
+        borderRadius: 5
     },
     SecondaryContainer: {
         flex: 1,
-        alignItems: 'center'
+        alignItems: 'center',
+        marginVertical: 5
     },
     RestaurantName: {
         fontSize: 28,

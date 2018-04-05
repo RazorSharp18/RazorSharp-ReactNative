@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import Header from './Header/Header';
 import CommentsList from './Comments/CommentsList';
+import Styles from "./RestaurantProfileStyles";
 
 class Details extends React.Component {
 
@@ -49,15 +50,21 @@ class Details extends React.Component {
 
   render() {
     return(
-      <ScrollView>
-          <Header
-              restaurantName={this.state.restaurantName}
-              restaurantAddress={this.state.restaurantAddress}
-              restaurantPhone={this.state.restaurantPhone}
-              restaurantRating={this.state.restaurantRating}
-              restaurantImage={this.state.restaurantImage}
-          />
-              <CommentsList restaurantReviews={this.state.restaurantReviews}></CommentsList>
+        <ScrollView>
+            <Header
+                restaurantName={this.state.restaurantName}
+                restaurantAddress={this.state.restaurantAddress}
+                restaurantPhone={this.state.restaurantPhone}
+                restaurantRating={this.state.restaurantRating}
+                restaurantImage={this.state.restaurantImage}
+            />
+            <View style={Styles.ButtonContainer}>
+                <Text style={Styles.ButtonStyles}>Comments</Text>
+                <Text style={Styles.ButtonStyles}>Timings</Text>
+            </View>
+            <CommentsList 
+                restaurantReviews={this.state.restaurantReviews}>
+            </CommentsList>
 
       </ScrollView>
     )
