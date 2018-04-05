@@ -28,7 +28,7 @@ class Details extends React.Component {
             .then((restaurantData) => {
                 this.setState({
                     restaurantName : restaurantData.name,
-                    restaurantAddress : restaurantData.location.display_address[0] + restaurantData.location.display_address[1],
+                    restaurantAddress : restaurantData.location.display_address[0],
                     restaurantPhone : restaurantData.display_phone,
                     restaurantRating: restaurantData.rating,
                     restaurantImage: restaurantData.image_url
@@ -49,7 +49,7 @@ class Details extends React.Component {
 
   render() {
     return(
-      <View>
+      <ScrollView>
           <Header
               restaurantName={this.state.restaurantName}
               restaurantAddress={this.state.restaurantAddress}
@@ -57,11 +57,9 @@ class Details extends React.Component {
               restaurantRating={this.state.restaurantRating}
               restaurantImage={this.state.restaurantImage}
           />
-          <ScrollView>
               <CommentsList restaurantReviews={this.state.restaurantReviews}></CommentsList>
-          </ScrollView>
 
-      </View>
+      </ScrollView>
     )
   }
 }

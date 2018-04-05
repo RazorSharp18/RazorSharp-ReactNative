@@ -3,19 +3,35 @@ import { StyleSheet } from 'react-native';
 
 const Styles = StyleSheet.create({
     ContainerStyle: {
-        flexDirection: 'row',
-        marginTop: 10,
-        marginBottom: 10
+        backgroundColor: '#3063A5',
+        flex: 1,
+        alignItems: 'center',
+        paddingVertical: 10
     },
     HeaderImage: {
-        flex: 0.2,
-        resizeMode: 'contain'
+        height: 100,
+        width: 150,
+        resizeMode: 'cover',
+        borderWidth: 3,
+        borderColor: 'white',
+        borderRadius: 5,
+        marginVertical: 10
     },
     SecondaryContainer: {
-        flex: 0.8
+        flex: 1,
+        alignItems: 'center'
     },
     RestaurantName: {
-        fontSize: 25
+        fontSize: 28,
+        color: 'white',
+        fontWeight: '900',
+        flex: 1,
+        alignItems: 'center'
+    },
+    SecondaryTextStyles: {
+        fontSize: 21,
+        color: 'white',
+        marginVertical: 2
     }
 });
 
