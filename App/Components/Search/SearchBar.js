@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import { Text, TextInput, View, FlatList, TouchableOpacity } from 'react-native';
+import { Text, TextInput, View, FlatList, TouchableOpacity, AppState } from 'react-native';
 import styles from './styles';
 import globals from '../globals';
 import RestaurantsList from '../SuggestedRestaurantsList/RestaurantsList';
 import SearchList from './SearchList';
 import FixingIt from '../CustomErrors/DefaultError';
+import PushController from '../PushNotifications/PushController';
+import PushNotification from 'react-native-push-notification';
 
 export default class SearchBar extends React.Component {
-  
+
   constructor(props){
     super(props);
     this.state = {
@@ -20,15 +22,15 @@ export default class SearchBar extends React.Component {
       onLoadData: [],
       text: '',
       encounteredError: false,
-      requestHeader: {  
+      requestHeader: {
         method: 'GET',
         headers: {
           'Authorization': 'Bearer 0DBI9WJvAoIoX0VgLQqvkfm_k1AWXBh9xB2BbpWs_N2dNhocRn12OPiaz5PrpC7t4N1MhgbbixFZX2YZQmZagtXgcKZs1TN5lvGMNFuW3oYmuC-kpyGOn-Wo5xyKWnYx'
         }
       }
-    }; 
+    };
   }
-  
+
   //Wil be called before loading SearchBar component
   componentWillMount(){
 
@@ -46,7 +48,7 @@ export default class SearchBar extends React.Component {
           console.log("Error in getting geo-location",error);
           this.setState({encounteredError: true});
       });
-      
+
 
       //Gets the suggestions to the restaurants based on the users location on loading the searchBar Component
       fetch('https://api.yelp.com/v3/businesses/search?term=&latitude='+latitude+'&longitude='+longitude+"&categories=restaurants", this.state.requestHeader)
@@ -56,20 +58,27 @@ export default class SearchBar extends React.Component {
       }).catch(function(error) {
         console.log("Error suggesting default restaurants",error);
         this.setState({encounteredError: true});
-    }); 
-    }); 
+      });
+    });
   }
 
-//   fetchData = async () => {
-//     if(this.state.text == ''){
-//     const response = await fetch('http://localhost:3001/restaurants/names')
-//     .then((resp) => resp.json())
-//     .then(function(resp) {
-//       this.setState({data: resp});
-//       this.setState({searchData: [].concat(this.state.data)})
-//     }.bind(this));
-//   }
-// }
+  componentDidMount() {
+    AppState.addEventListener('change', this.handleAppStateChange);
+  }
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this.handleAppStateChange);
+  }
+
+  handleAppStateChange(appState) {
+      if (appState === 'background') {
+        console.log('App in background');
+        PushNotification.localNotificationSchedule({
+          message: "My notification message",
+          date: new Date(Date.now() + (60 * 1000)) // in 60 sec, send a notification
+        });
+      }
+  }
 
   TextChange = (textEntered) => {
     this.setState({searchData: []});
@@ -97,7 +106,7 @@ export default class SearchBar extends React.Component {
       }).catch(function(error) {
         console.log("Error searching based on words typed ",error);
         this.setState({encounteredError: true});
-    });
+      });
     }
   }
 
@@ -158,7 +167,7 @@ export default class SearchBar extends React.Component {
     }
   }
 
-  render() { 
+  render() {
     let content = null;
     if(this.state.encounteredError) {
       content = (<FixingIt />);
@@ -167,6 +176,7 @@ export default class SearchBar extends React.Component {
         <View style={styles.combine}>
           {this.searchContent()}
           {this.loadSuggestions()}
+          <PushController />
         </View>
       );
     }
