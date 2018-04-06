@@ -12,6 +12,7 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import "RCTPushNotificationManager.h"
+#import <TSBackgroundFetch/TSBackgroundFetch.h>
 
 @implementation AppDelegate
 
@@ -62,4 +63,10 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
   [RCTPushNotificationManager didReceiveLocalNotification:notification];
 }
 
+-(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+  NSLog(@"RNBackgroundFetch AppDelegate received fetch event");
+  TSBackgroundFetch *fetchManager = [TSBackgroundFetch sharedInstance];
+  [fetchManager performFetchWithCompletionHandler:completionHandler applicationState:application.applicationState];
+}
 @end
