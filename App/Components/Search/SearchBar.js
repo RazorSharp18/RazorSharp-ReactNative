@@ -7,7 +7,7 @@ import SearchList from './SearchList';
 import FixingIt from '../CustomErrors/DefaultError';
 import PushController from '../PushNotifications/PushController';
 import PushNotification from 'react-native-push-notification';
-
+import BgGeoLocationService from '../BackgroundServices/BgGeoLocationService';
 export default class SearchBar extends React.Component {
 
   constructor(props){
@@ -177,6 +177,7 @@ export default class SearchBar extends React.Component {
           {this.searchContent()}
           {this.loadSuggestions()}
           <PushController />
+          <BgGeoLocationService />
         </View>
       );
     }
