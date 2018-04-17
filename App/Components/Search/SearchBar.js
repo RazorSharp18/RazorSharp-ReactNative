@@ -5,6 +5,7 @@ import globals from '../globals';
 import RestaurantsList from '../SuggestedRestaurantsList/RestaurantsList';
 import SearchList from './SearchList';
 import FixingIt from '../CustomErrors/DefaultError';
+import { Actions } from 'react-native-router-flux';
 
 export default class SearchBar extends React.Component {
   
@@ -102,7 +103,7 @@ export default class SearchBar extends React.Component {
   }
 
   navigateToProfile = (restaurantId) => {
-    this.props.navigation.navigate('Profile', {restaurantId: restaurantId});
+    Actions.restaurantprofile({restaurantId : restaurantId});
   }
 
   _onPressItem = (index, restaurant) => {
